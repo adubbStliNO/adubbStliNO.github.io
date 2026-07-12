@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Shame We Carry — Workshop Companion</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --cream:#F2EDE1;
+    --panel:#E7DFC9;
+    --panel-2:#DED3B4;
+    --ink:#332C22;
+    --ink-soft:#5B5142;
+    --gold:#8C6A31;
+    --gold-deep:#6B4E20;
+    --rust:#79462B;
+    --sage:#5E6B4E;
+    --sage-light:#E4E7D9;
+    --line: rgba(51,44,34,0.16);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+  }
+
+  .wrap{max-width:900px; margin:0 auto; padding:0 32px;}
+
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:500; margin:0; color:var(--ink);}
+
+  /* TAB NAV */
+  .tabbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--cream);
+    border-bottom:1px solid var(--line);
+  }
+  .tabbar-inner{
+    max-width:900px; margin:0 auto; padding:0 32px;
+    display:flex; gap:4px; overflow-x:auto;
+  }
+  .tab-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:20px 16px 16px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .tab-btn:hover{color:var(--ink);}
+  .tab-btn.active{color:var(--gold-deep); border-bottom-color:var(--gold-deep);}
+  .tab-btn .n{opacity:0.55; margin-right:6px;}
+
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .panel-nav{
+    display:flex; justify-content:space-between; align-items:center;
+    max-width:900px; margin:0 auto; padding:20px 32px 0;
+  }
+  .panel-nav button{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    background:none; border:1px solid var(--line); border-radius:5px;
+    color:var(--ink-soft); padding:8px 14px; cursor:pointer;
+  }
+  .panel-nav button:hover{border-color:var(--gold); color:var(--gold-deep);}
+  .panel-nav button:disabled{opacity:0.3; cursor:default;}
+  .panel-nav button:disabled:hover{border-color:var(--line); color:var(--ink-soft);}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    margin-bottom:10px;
+  }
+
+  /* HERO */
+  .hero{
+    padding:90px 0 70px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero h1{
+    font-size:56px;
+    line-height:1.05;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{font-style:italic; color:var(--gold-deep);}
+  .hero .sub{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:22px;
+    color:var(--ink-soft);
+    margin-top:18px;
+    max-width:640px;
+  }
+  .hero .meta{
+    display:flex; gap:28px; margin-top:40px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .hero .meta span{border-left:2px solid var(--gold); padding-left:10px;}
+
+  .note{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--gold);
+    padding:16px 20px;
+    margin-top:36px;
+    font-size:14px;
+    color:var(--ink-soft);
+    max-width:640px;
+  }
+  .note b{color:var(--ink);}
+
+  section{padding:56px 0 40px;}
+  section h2{font-size:32px; margin-bottom:6px;}
+  section .intro{color:var(--ink-soft); max-width:620px; margin-bottom:36px; font-size:16px;}
+
+  /* PATHWAY */
+  .pathway{display:flex; flex-direction:column; gap:0;}
+  .stage{
+    position:relative;
+    border:1px solid var(--line);
+    background:var(--panel);
+    border-radius:6px;
+    padding:20px 24px;
+    cursor:pointer;
+    transition:background 0.2s ease, border-color 0.2s ease;
+  }
+  .stage + .stage{margin-top:34px;}
+  .stage::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:-30px;
+    width:1px;
+    height:30px;
+    background:var(--gold);
+    transform:translateX(-50%);
+  }
+  .stage:first-child::before{display:none;}
+  .stage .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--gold-deep);
+    letter-spacing:0.08em;
+  }
+  .stage h3{font-size:19px; margin-top:6px;}
+  .stage .hint{
+    font-size:13px; color:var(--ink-soft); margin-top:6px; font-style:italic;
+  }
+  .stage .reveal{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.35s ease;
+  }
+  .stage.open{background:var(--sage-light); border-color:var(--sage);}
+  .stage.open .reveal{max-height:220px; margin-top:14px;}
+  .stage .reveal p{font-size:14.5px; color:var(--ink); margin:0;}
+  .stage .toggle{
+    position:absolute; right:22px; top:20px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; color:var(--gold-deep);
+  }
+
+  /* CARD GAME */
+  .game-controls{
+    display:flex; align-items:center; gap:16px; margin-bottom:28px;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--ink-soft);
+  }
+  .game-controls button{
+    font-family:'Work Sans', sans-serif;
+    font-size:13px;
+    padding:9px 16px;
+    border-radius:5px;
+    border:1px solid var(--gold);
+    background:transparent;
+    color:var(--gold-deep);
+    cursor:pointer;
+  }
+  .game-controls button:hover{background:var(--panel);}
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    gap:18px;
+  }
+  .card{
+    perspective:1200px;
+    height:210px;
+    cursor:pointer;
+  }
+  .card-inner{
+    position:relative; width:100%; height:100%;
+    transform-style:preserve-3d;
+    transition:transform 0.5s cubic-bezier(.4,.2,.2,1);
+  }
+  .card.flipped .card-inner{transform:rotateY(180deg);}
+  .card-face{
+    position:absolute; inset:0;
+    backface-visibility:hidden;
+    border-radius:8px;
+    padding:20px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    border:1px solid var(--line);
+  }
+  .card-front{
+    background:var(--panel);
+  }
+  .card-front .label{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--gold-deep); letter-spacing:0.06em; text-transform:uppercase;
+  }
+  .card-front p{
+    font-family:'Fraunces', serif; font-style:italic; font-size:18px; line-height:1.3; margin:12px 0 0; color:var(--ink);
+  }
+  .card-front .tap{font-size:12px; color:var(--ink-soft); align-self:flex-end;}
+  .card-back{
+    background:var(--sage); color:#fff;
+    transform:rotateY(180deg);
+  }
+  .card-back .label{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color:#DDE3CC; letter-spacing:0.06em; text-transform:uppercase;
+  }
+  .card-back p{font-size:14px; margin:10px 0 0; color:#F5F6EE;}
+
+  /* PLAYLIST */
+  .track-list{border-top:1px solid var(--line);}
+  .track{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:18px 0; border-bottom:1px solid var(--line); gap:20px;
+  }
+  .track .who{
+    font-family:'Fraunces', serif; font-size:18px; min-width:250px;
+  }
+  .track .who span{display:block; font-family:'Work Sans',sans-serif; font-size:13px; color:var(--ink-soft); font-style:normal; margin-top:2px;}
+  .track .why{font-size:14px; color:var(--ink-soft); text-align:right; max-width:340px;}
+
+  /* DISCUSSION TIMER */
+  .timer-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:28px;
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+    flex-wrap:wrap;
+  }
+  .timer-box .prompt{max-width:440px; font-size:15px; color:var(--ink);}
+  .timer-box .prompt .eyebrow{margin-bottom:8px;}
+  .timer-display{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:44px;
+    color:var(--gold-deep);
+    min-width:120px;
+    text-align:center;
+  }
+  .timer-buttons{display:flex; gap:10px;}
+  .timer-buttons button{
+    font-family:'Work Sans', sans-serif; font-size:13px;
+    padding:10px 18px; border-radius:5px;
+    border:1px solid var(--gold-deep);
+    background:var(--gold-deep); color:#fff; cursor:pointer;
+  }
+  .timer-buttons button.secondary{
+    background:transparent; color:var(--gold-deep);
+  }
+
+  /* CRITIQUE */
+  .critique{
+    background:var(--ink);
+    color:var(--cream);
+    padding:56px 40px;
+    border-radius:8px;
+  }
+  .critique .eyebrow{color:#C9A85F;}
+  .critique h2{color:var(--cream); font-size:28px;}
+  .critique p{font-size:16px; color:#DCD5C4; max-width:680px;}
+
+  footer{
+    padding:32px 0 60px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    border-top:1px solid var(--line);
+    margin-top:20px;
+  }
+
+  @media (max-width:640px){
+    .hero h1{font-size:38px;}
+    .wrap{padding:0 20px;}
+    .track{flex-direction:column; gap:4px;}
+    .track .why{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="tabbar">
+  <div class="tabbar-inner" id="tabbarInner">
+    <button class="tab-btn" data-panel="home"><span class="n">00</span>Home</button>
+    <button class="tab-btn" data-panel="pathway"><span class="n">01</span>Pathway</button>
+    <button class="tab-btn" data-panel="game"><span class="n">02</span>Myth or Message</button>
+    <button class="tab-btn" data-panel="playlist"><span class="n">03</span>Playlist</button>
+    <button class="tab-btn" data-panel="discuss"><span class="n">04</span>Discuss</button>
+    <button class="tab-btn" data-panel="critique"><span class="n">05</span>Critique</button>
+  </div>
+</nav>
+
+<div class="panel" id="panel-home">
+  <div class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Workshop companion · Interactive</div>
+      <h1>The shame<br>we <em>carry</em></h1>
+      <p class="sub">How rigid religious sexual ideologies learned in childhood show up in the bedroom.</p>
+      <div class="meta">
+        <span>Graduate clinical sexuality workshop</span>
+        <span>Couples, family & individual practice</span>
+        <span>45 minutes</span>
+      </div>
+      <div class="note"><b>A note before we start:</b> this workshop does not pathologize religion or spirituality. The focus is on rigid, fear-based, purity-based, or authoritarian sexual teachings — and their clinical sequelae in adulthood.</div>
+    </div>
+  </div>
+  <div class="panel-nav">
+    <span></span>
+    <button class="next-btn" data-target="pathway">Start with the pathway →</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-pathway">
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Part one · Trace the pathway</div>
+      <h2>From childhood teaching to the bedroom</h2>
+      <p class="intro">Click each stage to reveal how a single childhood message travels — through internalization, arousal, and the body — into an adult presenting problem. This mirrors the pathway diagram on the printed handout.</p>
+
+      <div class="pathway" id="pathwayList"></div>
+    </div>
+  </section>
+  <div class="panel-nav">
+    <button class="prev-btn" data-target="home">← Home</button>
+    <button class="next-btn" data-target="game">Myth or message →</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-game">
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Part two · Myth or message</div>
+      <h2>Flip the teaching. Find the impact.</h2>
+      <p class="intro">Each card holds a message common to purity-culture sex education. Click a card to flip it and reveal how that message tends to surface in the therapy room decades later. Use this with your group: read the front aloud, guess the clinical impact, then flip.</p>
+      <div class="game-controls">
+        <span id="flipCount">0 of 8 flipped</span>
+        <button id="resetCards">Reset cards</button>
+      </div>
+      <div class="card-grid" id="cardGrid"></div>
+    </div>
+  </section>
+  <div class="panel-nav">
+    <button class="prev-btn" data-target="pathway">← Pathway</button>
+    <button class="next-btn" data-target="playlist">Playlist →</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-playlist">
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Part three · Listen for it</div>
+      <h2>A reflection playlist</h2>
+      <p class="intro">Popular music has long carried the tension between desire and religious guilt. These five tracks were selected as discussion prompts — play a clip before your workshop and ask the room what they notice about shame, longing, and the body.</p>
+      <div class="track-list" id="trackList"></div>
+    </div>
+  </section>
+  <div class="panel-nav">
+    <button class="prev-btn" data-target="game">← Myth or message</button>
+    <button class="next-btn" data-target="discuss">Discuss →</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-discuss">
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Part four · Small group</div>
+      <h2>Discussion break</h2>
+      <p class="intro">Use this timer to run a live small-group discussion during your presentation.</p>
+      <div class="timer-box">
+        <div class="prompt">
+          <div class="eyebrow">Prompt for groups of 3–4</div>
+          Think of a client presentation you assumed was "low desire." Where might a religious sexual script actually be at play instead — and how would your intervention change?
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:12px;">
+          <div class="timer-display" id="timerDisplay">03:00</div>
+          <div class="timer-buttons">
+            <button id="startTimer">Start</button>
+            <button id="resetTimer" class="secondary">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="panel-nav">
+    <button class="prev-btn" data-target="playlist">← Playlist</button>
+    <button class="next-btn" data-target="critique">Critique →</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-critique">
+  <section>
+    <div class="wrap">
+      <div class="critique">
+        <div class="eyebrow">Cultural critique</div>
+        <h2>Whose body is the problem?</h2>
+        <p>Clinical language often relocates the source of the difficulty into the individual body — "low desire," "vaginismus," "delayed ejaculation" — as though the symptom originated there. Purity-culture research suggests otherwise: the symptom is frequently the body's accurate memory of a system that made desire itself dangerous. Treating the presentation as a private deficit, without naming the ideology that produced it, quietly reproduces the very shame the client came in carrying.</p>
+      </div>
+    </div>
+  </section>
+  <div class="panel-nav">
+    <button class="prev-btn" data-target="discuss">← Discuss</button>
+    <span></span>
+  </div>
+  <footer>
+    <div class="wrap" style="display:flex; justify-content:space-between; width:100%; flex-wrap:wrap; gap:12px;">
+      <span>Sommer &amp; Weatherly · Conference handout companion</span>
+      <span>See printed handout, pages 4–5, for full reference list</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+// TAB NAVIGATION
+const panelOrder = ['home','pathway','game','playlist','discuss','critique'];
+const tabBtns = document.querySelectorAll('.tab-btn');
+
+function showPanel(name){
+  panelOrder.forEach(p => {
+    document.getElementById('panel-' + p).classList.toggle('active', p === name);
+  });
+  tabBtns.forEach(b => b.classList.toggle('active', b.dataset.panel === name));
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+tabBtns.forEach(b => b.addEventListener('click', () => showPanel(b.dataset.panel)));
+document.querySelectorAll('.next-btn, .prev-btn').forEach(b => {
+  b.addEventListener('click', () => showPanel(b.dataset.target));
+});
+
+showPanel('home');
+
+const pathwayData = [
+  {
+    stage: "Stage 1",
+    title: "The childhood message",
+    hint: "Click to reveal",
+    body: "A child is taught, directly or by omission, that sexual feeling is dangerous, dirty, or acceptable only within narrow, rule-bound conditions. The message is delivered with moral weight rather than neutral information."
+  },
+  {
+    stage: "Stage 2",
+    title: "Internalization as a sexual script",
+    hint: "Click to reveal",
+    body: "The message becomes an unconscious rulebook for how desire, arousal, and bodies are supposed to work. It stops feeling like a teaching and starts feeling like a fact about the self: \u201cgood people don't want this.\u201d"
+  },
+  {
+    stage: "Stage 3",
+    title: "Cognitive and somatic fusion",
+    hint: "Click to reveal",
+    body: "Arousal and guilt become conditioned together. The body learns to answer desire with anxiety, tension, or dissociation before conscious thought can intervene."
+  },
+  {
+    stage: "Stage 4",
+    title: "Adult presentation",
+    hint: "Click to reveal",
+    body: "This shows up clinically as low or absent desire, pelvic pain, erectile difficulty, delayed or absent orgasm, compulsive-avoidant cycles, or difficulty being present during sex."
+  },
+  {
+    stage: "Stage 5",
+    title: "Relational and diagnostic misattribution",
+    hint: "Click to reveal",
+    body: "Without naming the ideology behind it, the presentation is often read as individual pathology or relationship failure \u2014 leaving the client to carry blame for a script they did not write."
+  }
+];
+
+const pathwayList = document.getElementById('pathwayList');
+pathwayData.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'stage';
+  el.innerHTML = `
+    <div class="num">${s.stage}</div>
+    <h3>${s.title}</h3>
+    <div class="hint">${s.hint}</div>
+    <div class="toggle">+</div>
+    <div class="reveal"><p>${s.body}</p></div>
+  `;
+  el.addEventListener('click', () => {
+    const opening = !el.classList.contains('open');
+    el.classList.toggle('open');
+    el.querySelector('.toggle').textContent = opening ? '\u2212' : '+';
+    el.querySelector('.hint').style.display = opening ? 'none' : 'block';
+  });
+  pathwayList.appendChild(el);
+});
+
+const cardData = [
+  {
+    front: "Your body is a temple. Keep it pure for your husband.",
+    back: "Frames sexuality as belonging to a future spouse, not the self. Adult impact: difficulty identifying or claiming one's own desire, independent of a partner's wants (Nagoski, Come As You Are)."
+  },
+  {
+    front: "Modesty keeps boys from having impure thoughts.",
+    back: "Places responsibility for others' arousal onto a child's own body. Adult impact: chronic body surveillance, shame around being seen or wanted."
+  },
+  {
+    front: "Masturbation is a sin.",
+    back: "Adult impact: guilt or dissociation during solo pleasure; difficulty learning one's own arousal patterns, which complicates partnered sex later."
+  },
+  {
+    front: "Good girls don't want it.",
+    back: "Adult impact: desire that is present but suppressed gets mislabeled as 'low desire' \u2014 a learned absence, not a biological one."
+  },
+  {
+    front: "A wife's body belongs to her husband.",
+    back: "Blurs the line around consent within marriage. Adult impact: difficulty saying no, or difficulty identifying what actually feels good."
+  },
+  {
+    front: "If you have sex before marriage, you are damaged goods.",
+    back: "Ties self-worth to sexual history. Adult impact: shame that resurfaces around new partners, disclosure, or even wanted premarital experiences."
+  },
+  {
+    front: "Sexual desire outside marriage is a spiritual failure.",
+    back: "Adult impact: guilt and anxiety can persist even inside a sanctioned marriage, because arousal itself was conditioned as dangerous, not the context."
+  },
+  {
+    front: "Doubting these teachings means you're being tempted.",
+    back: "Suppresses critical reflection and isolates questioning from trusted adults. Adult impact: delayed help-seeking and difficulty trusting one's own judgment in therapy."
+  }
+];
+
+const cardGrid = document.getElementById('cardGrid');
+const flipCountEl = document.getElementById('flipCount');
+let flipped = new Set();
+
+cardData.forEach((c, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-inner">
+      <div class="card-face card-front">
+        <div class="label">Message</div>
+        <p>\u201c${c.front}\u201d</p>
+        <div class="tap">tap to reveal impact</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="label">Clinical impact</div>
+        <p>${c.back}</p>
+      </div>
+    </div>
+  `;
+  card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+    if (card.classList.contains('flipped')) flipped.add(i); else flipped.delete(i);
+    flipCountEl.textContent = flipped.size + ' of 8 flipped';
+  });
+  cardGrid.appendChild(card);
+});
+
+document.getElementById('resetCards').addEventListener('click', () => {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('flipped'));
+  flipped.clear();
+  flipCountEl.textContent = '0 of 8 flipped';
+});
+
+const tracks = [
+  { who: "Hozier", song: "Take Me to Church", why: "Uses church imagery to depict desire treated as sin — a direct sonic parallel to the workshop's thesis." },
+  { who: "Tori Amos", song: "Icicle", why: "Written from a childhood religious household; explores solitary pleasure as private rebellion against doctrine." },
+  { who: "MUNA", song: "Loose Rib", why: "Reflects on inherited religious narratives about gender, body, and belonging." },
+  { who: "Mitski", song: "Your Best American Girl", why: "Touches on feeling culturally 'unfit' for desirability and intimacy." },
+  { who: "Ani DiFranco", song: "Not a Pretty Girl", why: "A refusal of prescribed femininity and purity as identity." }
+];
+const trackList = document.getElementById('trackList');
+tracks.forEach(t => {
+  const row = document.createElement('div');
+  row.className = 'track';
+  row.innerHTML = `<div class="who">${t.song}<span>${t.who}</span></div><div class="why">${t.why}</div>`;
+  trackList.appendChild(row);
+});
+
+let totalSeconds = 180;
+let remaining = totalSeconds;
+let timerInterval = null;
+const timerDisplay = document.getElementById('timerDisplay');
+const startBtn = document.getElementById('startTimer');
+
+function renderTime(){
+  const m = Math.floor(remaining/60).toString().padStart(2,'0');
+  const s = (remaining%60).toString().padStart(2,'0');
+  timerDisplay.textContent = m + ':' + s;
+}
+renderTime();
+
+startBtn.addEventListener('click', () => {
+  if (timerInterval){
+    clearInterval(timerInterval);
+    timerInterval = null;
+    startBtn.textContent = 'Start';
+    return;
+  }
+  startBtn.textContent = 'Pause';
+  timerInterval = setInterval(() => {
+    remaining -= 1;
+    if (remaining <= 0){
+      remaining = 0;
+      clearInterval(timerInterval);
+      timerInterval = null;
+      startBtn.textContent = 'Start';
+    }
+    renderTime();
+  }, 1000);
+});
+
+document.getElementById('resetTimer').addEventListener('click', () => {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  remaining = totalSeconds;
+  startBtn.textContent = 'Start';
+  renderTime();
+});
+</script>
+
+</body>
+</html>
