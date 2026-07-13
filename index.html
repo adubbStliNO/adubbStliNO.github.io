@@ -290,6 +290,60 @@
   .critique h2{color:var(--cream); font-size:28px;}
   .critique p{font-size:16px; color:#DCD5C4; max-width:680px;}
 
+  /* DOWNLOADS */
+  .download-grid{
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .download-card{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:20px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    border-radius:8px;
+    padding:24px 26px;
+    flex-wrap:wrap;
+  }
+  .download-card .info{max-width:520px;}
+  .download-card .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--gold-deep); margin-bottom:6px;
+  }
+  .download-card h3{font-size:19px; margin-bottom:6px;}
+  .download-card p{font-size:14px; color:var(--ink-soft); margin:0;}
+  .download-card a.dl-btn{
+    font-family:'Work Sans', sans-serif;
+    font-size:14px; font-weight:600;
+    background:var(--gold-deep); color:#fff;
+    padding:12px 20px; border-radius:6px;
+    text-decoration:none; white-space:nowrap;
+  }
+  .download-card a.dl-btn:hover{background:var(--rust);}
+  .download-card.pending{opacity:0.6;}
+  .download-card.pending a.dl-btn{
+    background:transparent; color:var(--ink-soft);
+    border:1px dashed var(--ink-soft); cursor:default;
+    pointer-events:none;
+  }
+  .download-note{
+    font-size:13px; color:var(--ink-soft); margin-top:24px;
+    border-top:1px solid var(--line); padding-top:18px;
+  }
+
+  /* EMBEDDED ACTIVITY (iframe) */
+  .embed-frame-wrap{
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    background:#fff;
+  }
+  .embed-frame-wrap iframe{
+    display:block;
+    width:100%;
+    height:850px;
+    border:none;
+  }
+
   footer{
     padding:32px 0 60px;
     font-family:'IBM Plex Mono', monospace;
@@ -315,9 +369,11 @@
     <button class="tab-btn" data-panel="home"><span class="n">00</span>Home</button>
     <button class="tab-btn" data-panel="pathway"><span class="n">01</span>Pathway</button>
     <button class="tab-btn" data-panel="game"><span class="n">02</span>Myth or Message</button>
-    <button class="tab-btn" data-panel="playlist"><span class="n">03</span>Playlist</button>
-    <button class="tab-btn" data-panel="discuss"><span class="n">04</span>Discuss</button>
-    <button class="tab-btn" data-panel="critique"><span class="n">05</span>Critique</button>
+    <a class="tab-btn" href="baggage-claim.html" target="_blank" rel="noopener"><span class="n">03</span>Baggage Claim <span style="font-size:10px;">↗</span></a>
+    <button class="tab-btn" data-panel="playlist"><span class="n">04</span>Playlist</button>
+    <button class="tab-btn" data-panel="discuss"><span class="n">05</span>Discuss</button>
+    <button class="tab-btn" data-panel="critique"><span class="n">06</span>Critique</button>
+    <button class="tab-btn" data-panel="downloads"><span class="n">07</span>Downloads</button>
   </div>
 </nav>
 
@@ -430,6 +486,51 @@
   </section>
   <div class="panel-nav">
     <button class="prev-btn" data-target="discuss">← Discuss</button>
+    <button class="next-btn" data-target="downloads">Downloads →</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-downloads">
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Take it with you</div>
+      <h2>Download the full materials</h2>
+      <p class="intro">This page is a live companion for the workshop. The full written materials — the printed handout and the slide deck — are below.</p>
+
+      <div class="download-grid">
+        <div class="download-card">
+          <div class="info">
+            <div class="tag">Handout · PDF</div>
+            <h3>The Shame We Carry — Conference Handout</h3>
+            <p>The full 4-page printed handout: overview, learning objectives, clinical pathway, treatment considerations, resources, and references.</p>
+          </div>
+          <a class="dl-btn" href="handout.pdf" download>Download PDF</a>
+        </div>
+
+        <div class="download-card">
+          <div class="info">
+            <div class="tag">Slide deck · PPTX</div>
+            <h3>Workshop Presentation Slides</h3>
+            <p>The full slide deck used for the live 45-minute workshop presentation.</p>
+          </div>
+          <a class="dl-btn" href="presentation.pptx" download>Download Slides</a>
+        </div>
+
+        <div class="download-card pending">
+          <div class="info">
+            <div class="tag">Coming soon</div>
+            <h3>Additional Resources</h3>
+            <p>A supplementary resource packet is in progress and will be added here before the workshop.</p>
+          </div>
+          <a class="dl-btn" href="#">Not yet available</a>
+        </div>
+      </div>
+
+      <p class="download-note">Having trouble downloading? Right-click (or two-finger click) any button above and choose "Save link as" if it opens in your browser instead of downloading directly.</p>
+    </div>
+  </section>
+  <div class="panel-nav">
+    <button class="prev-btn" data-target="critique">← Critique</button>
     <span></span>
   </div>
   <footer>
@@ -442,8 +543,8 @@
 
 <script>
 // TAB NAVIGATION
-const panelOrder = ['home','pathway','game','playlist','discuss','critique'];
-const tabBtns = document.querySelectorAll('.tab-btn');
+const panelOrder = ['home','pathway','game','playlist','discuss','critique','downloads'];
+const tabBtns = document.querySelectorAll('.tab-btn[data-panel]');
 
 function showPanel(name){
   panelOrder.forEach(p => {
