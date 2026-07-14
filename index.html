@@ -391,7 +391,6 @@
     <button class="tab-btn" data-panel="game">Myth or Message</button>
     <a class="tab-btn" href="baggage-claim.html" target="_blank" rel="noopener">Baggage Claim <span style="font-size:10px;">↗</span></a>
     <button class="tab-btn" data-panel="playlist">Playlist</button>
-    <button class="tab-btn" data-panel="poll">Poll</button>
     <button class="tab-btn" data-panel="discuss">Discuss</button>
     <button class="tab-btn" data-panel="critique">Critique</button>
     <button class="tab-btn" data-panel="downloads">Downloads</button>
@@ -490,29 +489,6 @@
   </section>
   <div class="panel-nav">
     <button class="prev-btn" data-target="game">← Myth or message</button>
-    <button class="next-btn" data-target="poll">Poll →</button>
-  </div>
-</div>
-
-<div class="panel" id="panel-poll">
-  <section>
-    <div class="wrap">
-      <div class="eyebrow">Part three-and-a-half · Live poll</div>
-      <h2>What does the room think?</h2>
-      <p class="intro">A live poll, answered by the class in real time from their own phones. Have them scan or tap the button below to join, then switch your projector to your poll tool's presenter view to show results coming in live.</p>
-      <div class="download-card">
-        <div class="info">
-          <div class="tag">Live poll · Opens in a new tab</div>
-          <h3>Join the poll</h3>
-          <p>Update this link once your poll session is created — swap the placeholder URL for your real AhaSlides (or Poll Everywhere) join link.</p>
-        </div>
-        <a class="dl-btn" href="https://ahaslides.com/" target="_blank" rel="noopener">Join poll ↗</a>
-      </div>
-      <p class="download-note">Suggested prompt: "Have you ever attributed a client's low desire to individual pathology without first considering a religious sexual script?" — a simple yes / no / unsure poll works well here and takes under two minutes for the room to answer.</p>
-    </div>
-  </section>
-  <div class="panel-nav">
-    <button class="prev-btn" data-target="playlist">← Playlist</button>
     <button class="next-btn" data-target="discuss">Discuss →</button>
   </div>
 </div>
@@ -539,7 +515,7 @@
     </div>
   </section>
   <div class="panel-nav">
-    <button class="prev-btn" data-target="poll">← Poll</button>
+    <button class="prev-btn" data-target="playlist">← Playlist</button>
     <button class="next-btn" data-target="critique">Critique →</button>
   </div>
 </div>
@@ -613,7 +589,7 @@
 
 <script>
 // TAB NAVIGATION
-const panelOrder = ['home','pathway','game','playlist','poll','discuss','critique','downloads'];
+const panelOrder = ['home','pathway','game','playlist','discuss','critique','downloads'];
 const tabBtns = document.querySelectorAll('.tab-btn[data-panel]');
 
 function showPanel(name){
