@@ -127,6 +127,18 @@
   }
   .note b{color:var(--ink);}
 
+  .byline{
+    margin-top:22px;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.02em;
+    color:var(--ink-soft);
+  }
+  .byline span:first-child{color:var(--gold-deep); font-weight:500;}
+
   section{padding:56px 0 40px;}
   section h2{font-size:32px; margin-bottom:6px;}
   section .intro{color:var(--ink-soft); max-width:620px; margin-bottom:36px; font-size:16px;}
@@ -343,6 +355,14 @@
     height:850px;
     border:none;
   }
+  .embed-frame-wrap.compact iframe{
+    height:380px;
+  }
+  .section-divider{
+    border-top:1px solid var(--line);
+    margin:44px 0 32px;
+    padding-top:36px;
+  }
 
   footer{
     padding:32px 0 60px;
@@ -366,14 +386,15 @@
 
 <nav class="tabbar">
   <div class="tabbar-inner" id="tabbarInner">
-    <button class="tab-btn" data-panel="home"><span class="n">00</span>Home</button>
-    <button class="tab-btn" data-panel="pathway"><span class="n">01</span>Pathway</button>
-    <button class="tab-btn" data-panel="game"><span class="n">02</span>Myth or Message</button>
-    <a class="tab-btn" href="baggage-claim.html" target="_blank" rel="noopener"><span class="n">03</span>Baggage Claim <span style="font-size:10px;">↗</span></a>
-    <button class="tab-btn" data-panel="playlist"><span class="n">04</span>Playlist</button>
-    <button class="tab-btn" data-panel="discuss"><span class="n">05</span>Discuss</button>
-    <button class="tab-btn" data-panel="critique"><span class="n">06</span>Critique</button>
-    <button class="tab-btn" data-panel="downloads"><span class="n">07</span>Downloads</button>
+    <button class="tab-btn" data-panel="home">Home</button>
+    <button class="tab-btn" data-panel="pathway">Pathway</button>
+    <button class="tab-btn" data-panel="game">Myth or Message</button>
+    <a class="tab-btn" href="baggage-claim.html" target="_blank" rel="noopener">Baggage Claim <span style="font-size:10px;">↗</span></a>
+    <button class="tab-btn" data-panel="playlist">Playlist</button>
+    <button class="tab-btn" data-panel="poll">Poll</button>
+    <button class="tab-btn" data-panel="discuss">Discuss</button>
+    <button class="tab-btn" data-panel="critique">Critique</button>
+    <button class="tab-btn" data-panel="downloads">Downloads</button>
   </div>
 </nav>
 
@@ -389,6 +410,11 @@
         <span>45 minutes</span>
       </div>
       <div class="note"><b>A note before we start:</b> this workshop does not pathologize religion or spirituality. The focus is on rigid, fear-based, purity-based, or authoritarian sexual teachings — and their clinical sequelae in adulthood.</div>
+      <div class="byline">
+        <span>April Weatherly &amp; Mary Sommer · July 14, 2026</span>
+        <span>MFT 5380-01 · Theory and Intervention in Human Sexuality</span>
+        <span>Katie Heiden-Rootes, Ph.D., LMFT, Certified Sex Therapist</span>
+      </div>
     </div>
   </div>
   <div class="panel-nav">
@@ -439,10 +465,54 @@
       <h2>A reflection playlist</h2>
       <p class="intro">Popular music has long carried the tension between desire and religious guilt. These five tracks were selected as discussion prompts — play a clip before your workshop and ask the room what they notice about shame, longing, and the body.</p>
       <div class="track-list" id="trackList"></div>
+
+      <div class="section-divider">
+        <div class="eyebrow">Build it together</div>
+        <h2 style="font-size:26px;">Add your own song to the class playlist</h2>
+        <p class="intro" style="margin-bottom:20px;">This is a live, collaborative Spotify playlist — anyone with the link below can add a track. Ask the room: what song captures a moment of reclaiming desire, or of shame, or of both at once?</p>
+
+        <div class="download-card" style="margin-bottom:24px;">
+          <div class="info">
+            <div class="tag">Collaborative · Opens in a new tab</div>
+            <h3>Add a song</h3>
+            <p>Tap the button to open the playlist in Spotify and add a track. A free Spotify account is required — signing up takes under a minute if you don't already have one.</p>
+          </div>
+          <a class="dl-btn" href="https://open.spotify.com/playlist/38OTFK1PYGOyStWuWNZBzJ?si=60b348bce4474de1&pt=66b5eb3387fc597b15b78a826c394f2f" target="_blank" rel="noopener">Add a song ↗</a>
+        </div>
+
+        <div class="embed-frame-wrap compact">
+          <!-- Replace the src below with your own Spotify playlist embed src (Spotify: ••• menu → Share → Embed) -->
+          <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/38OTFK1PYGOyStWuWNZBzJ?utm_source=generator&si=1e84386ae25648e4" title="Class collaborative playlist" width="100%" height="100%" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+        <p class="download-note">Songs added to the playlist will appear in the player above in real time — refresh the page if a new addition doesn't show up right away.</p>
+      </div>
     </div>
   </section>
   <div class="panel-nav">
     <button class="prev-btn" data-target="game">← Myth or message</button>
+    <button class="next-btn" data-target="poll">Poll →</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-poll">
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Part three-and-a-half · Live poll</div>
+      <h2>What does the room think?</h2>
+      <p class="intro">A live poll, answered by the class in real time from their own phones. Have them scan or tap the button below to join, then switch your projector to your poll tool's presenter view to show results coming in live.</p>
+      <div class="download-card">
+        <div class="info">
+          <div class="tag">Live poll · Opens in a new tab</div>
+          <h3>Join the poll</h3>
+          <p>Update this link once your poll session is created — swap the placeholder URL for your real AhaSlides (or Poll Everywhere) join link.</p>
+        </div>
+        <a class="dl-btn" href="https://ahaslides.com/" target="_blank" rel="noopener">Join poll ↗</a>
+      </div>
+      <p class="download-note">Suggested prompt: "Have you ever attributed a client's low desire to individual pathology without first considering a religious sexual script?" — a simple yes / no / unsure poll works well here and takes under two minutes for the room to answer.</p>
+    </div>
+  </section>
+  <div class="panel-nav">
+    <button class="prev-btn" data-target="playlist">← Playlist</button>
     <button class="next-btn" data-target="discuss">Discuss →</button>
   </div>
 </div>
@@ -469,7 +539,7 @@
     </div>
   </section>
   <div class="panel-nav">
-    <button class="prev-btn" data-target="playlist">← Playlist</button>
+    <button class="prev-btn" data-target="poll">← Poll</button>
     <button class="next-btn" data-target="critique">Critique →</button>
   </div>
 </div>
@@ -516,13 +586,13 @@
           <a class="dl-btn" href="presentation.pptx" download>Download Slides</a>
         </div>
 
-        <div class="download-card pending">
+        <div class="download-card">
           <div class="info">
-            <div class="tag">Coming soon</div>
-            <h3>Additional Resources</h3>
-            <p>A supplementary resource packet is in progress and will be added here before the workshop.</p>
+            <div class="tag">Additional resources · PDF</div>
+            <h3>Trauma-Informed Sexual Shame Note Cards</h3>
+            <p>Quick-reference note cards for clinicians — key concepts, framing language, and guiding questions to keep close during a session.</p>
           </div>
-          <a class="dl-btn" href="#">Not yet available</a>
+          <a class="dl-btn" href="resources.pdf" download>Download PDF</a>
         </div>
       </div>
 
@@ -543,7 +613,7 @@
 
 <script>
 // TAB NAVIGATION
-const panelOrder = ['home','pathway','game','playlist','discuss','critique','downloads'];
+const panelOrder = ['home','pathway','game','playlist','poll','discuss','critique','downloads'];
 const tabBtns = document.querySelectorAll('.tab-btn[data-panel]');
 
 function showPanel(name){
