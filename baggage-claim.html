@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -216,6 +217,7 @@
 
         let currentIndex = 0;
         let currentCardElement = null;
+        let cardElements = []; // one real DOM element per belief, built once
 
         // DOM Elements
         const container = document.getElementById('card-container');
@@ -227,29 +229,25 @@
         const feedbackBadge = document.getElementById('feedback-choice-badge');
         const endScreen = document.getElementById('end-screen');
 
-        function renderCard() {
-            if (currentIndex >= beliefs.length) {
-                showEndScreen();
-                return;
+        function buildStack() {
+            // Create every card once, bottom of the stack first, so the DOM/paint
+            // order already matches the intended visual order. No card is ever
+            // created again after this — advancing just removes the top one.
+            for (let i = beliefs.length - 1; i >= 0; i--) {
+                const belief = beliefs[i];
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.zIndex = beliefs.length - i;
+                if (i > 0) {
+                    const randomRot = (Math.random() * 8) - 4;
+                    card.style.transform = `rotate(${randomRot}deg)`;
+                }
+                card.innerHTML = `<h2 class="text-2xl md:text-3xl font-semibold leading-snug text-[#5C5248]">"${belief.text}"</h2>`;
+                container.appendChild(card);
+                cardElements[i] = card;
             }
-
-            const belief = beliefs[currentIndex];
-            
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.style.zIndex = beliefs.length - currentIndex; // Stack them properly
-            
-            // Add slight random rotation for a messy stack look, except for the top card
-            if (currentIndex > 0) {
-                const randomRot = (Math.random() * 6) - 3;
-                card.style.transform = `rotate(${randomRot}deg)`;
-            }
-
-            card.innerHTML = `<h2 class="text-2xl md:text-3xl font-semibold leading-snug text-[#5C5248]">"${belief.text}"</h2>`;
-            
-            container.appendChild(card);
-            currentCardElement = card;
-
+            currentIndex = 0;
+            currentCardElement = cardElements[0];
             updateProgress();
         }
 
@@ -289,15 +287,22 @@
 
         function nextCard() {
             modal.classList.remove('active');
-            
-            // Remove the old card from DOM after modal closes
+
+            // Remove the interacted card, then reveal the one already
+            // waiting underneath it in the stack.
             setTimeout(() => {
                 if (currentCardElement) {
                     currentCardElement.remove();
                 }
                 currentIndex++;
                 controls.style.pointerEvents = 'auto'; // Re-enable buttons
-                renderCard();
+
+                if (currentIndex >= beliefs.length) {
+                    showEndScreen();
+                    return;
+                }
+                currentCardElement = cardElements[currentIndex];
+                updateProgress();
             }, 300);
         }
 
@@ -317,24 +322,7 @@
 
         // Initialize game
         window.onload = () => {
-            // Pre-render the first few cards to create a visual stack
-            for(let i = beliefs.length - 1; i >= 0; i--) {
-                const tempIndex = currentIndex;
-                currentIndex = i;
-                renderCard();
-            }
-            // Reset to 0 and ensure only top card is active
-            currentIndex = 0;
-            const cards = document.querySelectorAll('.card');
-            cards.forEach((card, index) => {
-                if (index !== cards.length - 1) { // all but the top one
-                    const randomRot = (Math.random() * 8) - 4;
-                    card.style.transform = `rotate(${randomRot}deg)`;
-                } else {
-                     currentCardElement = card; // Set the top card
-                }
-            });
-            updateProgress();
+            buildStack();
         };
 
     </script>
